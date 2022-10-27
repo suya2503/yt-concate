@@ -1,14 +1,15 @@
 import urllib.request
 import json
 import ssl
+from setting.settings import API_KEY
+
 
 def get_all_video_in_channel(channel_id):
-    api_key = "AIzaSyDn8tiokD8Iyl-FrM-5egX-N-b2QFi2XKE"
 
     base_video_url = 'https://www.youtube.com/watch?v='
     base_search_url = 'https://www.googleapis.com/youtube/v3/search?'
 
-    first_url = f"{base_search_url}key={api_key}&channelId={channel_id}&part=snippet,id&order=date&maxResults=25"
+    first_url = f"{base_search_url}key={API_KEY}&channelId={channel_id}&part=snippet,id&order=date&maxResults=25"
 
     video_links = []
     url = first_url
@@ -31,5 +32,7 @@ def get_all_video_in_channel(channel_id):
 
 if __name__ == "__main__":
     CHANNEL_ID = "UCag5MH_BUo4oJdQyOMSvCRw"
-    video_list = get_all_video_in_channel(channel_id=CHANNEL_ID)
-    print(len(video_list))
+
+    # video_list = get_all_video_in_channel(channel_id=CHANNEL_ID)
+    # print(len(video_list))
+    print(API_KEY)
