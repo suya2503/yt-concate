@@ -11,7 +11,7 @@ class GetVedioList(Task):
     def __init__(self) -> None:
         super().__init__()
 
-    def process(self, data, config):
+    def process(self, data, config, utils):
 
         channel_id = config['channel_id']
 

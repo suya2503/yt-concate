@@ -5,8 +5,11 @@ import sys
 sys.path.append('/Users/suya/DS_Suya/Projects/yt-concate')
 from yt_concate.settings import API_KEY
 from yt_concate.pipeline.tasks.get_vedio_list import GetVedioList
-from yt_concate.pipeline.tasks.task import TaskException
 from yt_concate.pipeline.pipeline import Pipeline
+from yt_concate.pipeline.tasks.download_captions import DownloadCaptions
+from yt_concate.pipeline.tasks.preflight import Preflight
+from yt_concate.pipeline.tasks.postflight import Postflight
+from yt_concate.utils import Utils
 
 CHANNEL_ID = "UCag5MH_BUo4oJdQyOMSvCRw"
 
@@ -18,13 +21,19 @@ def main():
 
     # all tasks
     tasks_list = [
+        Preflight(),
         GetVedioList(),
+        DownloadCaptions(),
+        Postflight()
 
     ]
 
-    # 導管執行一步步任務
+    # utils
+    utils = Utils()
+
+    # 導管執行一步步任務(每一步都需要output一些檔案)
     pipeline_1 = Pipeline(tasks=tasks_list)
-    pipeline_1.run(config=config)
+    pipeline_1.run(config=config, utils=utils)
 
 
 

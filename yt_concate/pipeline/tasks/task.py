@@ -6,7 +6,7 @@ class Task(ABC):
         pass
 
     @abstractmethod
-    def process(self, data, config):
+    def process(self, data, config, utils):
         pass
 
 class TaskException(Exception):
