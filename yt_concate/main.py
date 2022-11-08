@@ -11,7 +11,7 @@ from yt_concate.pipeline.tasks.preflight import Preflight
 from yt_concate.pipeline.tasks.postflight import Postflight
 from yt_concate.utils import Utils
 
-CHANNEL_ID = "UCag5MH_BUo4oJdQyOMSvCRw"
+CHANNEL_ID = "UC9zY_E8mcAo_Oq772LEZq8Q" # the first take channel
 
 def main():
     # read config

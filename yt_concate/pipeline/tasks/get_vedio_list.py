@@ -1,10 +1,12 @@
 import sys
+import os
 sys.path.append('/Users/suya/DS_Suya/Projects/yt-concate')
 import urllib.request
 import json
 import ssl
 from yt_concate.settings import API_KEY
 from yt_concate.pipeline.tasks.task import Task, TaskException
+from yt_concate.settings import VIDEOS_LINK_DIR
 
 
 class GetVedioList(Task):
@@ -19,8 +21,12 @@ class GetVedioList(Task):
         base_search_url = 'https://www.googleapis.com/youtube/v3/search?'
 
         first_url = f"{base_search_url}key={API_KEY}&channelId={channel_id}&part=snippet,id&order=date&maxResults=25"
-
         video_links = []
+        # check if video link exists
+        if utils.check_if_video_link_file_exists(channel_id) and os.path.getsize(os.path.join(VIDEOS_LINK_DIR, f"{channel_id}.txt")) > 0:
+            print(f'Found the video link file for channel id:{channel_id}')
+            return utils.read_video_link_file(channel_id)
+
         url = first_url
         while True:
             # 這裡也有是最有可能出錯的地方 -> 但不知道有哪些錯誤
@@ -38,6 +44,10 @@ class GetVedioList(Task):
             except:
                 break
         print(len(video_links), video_links)
+
+        # save the video link to file
+        utils.write_video_link_to_file(channel_id, video_links)
+
         return video_links
 
 

@@ -9,3 +9,6 @@ ROOT_DIR = os.path.dirname(os.path.dirname(__file__))
 VIDEOS_DIR = os.path.join(ROOT_DIR, 'downloads', 'videos')
 # caption_output_path
 CAPTIONS_DIR = os.path.join(ROOT_DIR, 'downloads', 'captions')
+
+# video link file output path
+VIDEOS_LINK_DIR = os.path.join(ROOT_DIR, 'downloads')

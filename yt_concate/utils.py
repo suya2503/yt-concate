@@ -7,6 +7,7 @@ import os
 
 from yt_concate.settings import CAPTIONS_DIR
 from yt_concate.settings import VIDEOS_DIR
+from yt_concate.settings import VIDEOS_LINK_DIR
 
 
 class Utils:
@@ -21,6 +22,8 @@ class Utils:
         if not os.path.exists(VIDEOS_DIR):
             os.makedirs(VIDEOS_DIR)
     
+    def check_if_caption_file_exists(self, url):
+        return os.path.exists(self.get_caption_fp(url))
     
     @staticmethod
     def get_video_id_from_url(url):
@@ -36,3 +39,18 @@ class Utils:
         caption_fp = os.path.join(CAPTIONS_DIR, caption_fn)
         return caption_fp
     
+    def write_video_link_to_file(self, channel_id, video_links):
+        with open(os.path.join(VIDEOS_LINK_DIR, f"{channel_id}.txt"), mode="w", encoding="utf-8") as writer:
+            for video_link in video_links:
+                writer.write(video_link+"\n")
+        print(f'Video Link file of {channel_id} is saved.')
+    
+    def read_video_link_file(self, channel_id):
+        video_links = []
+        with open(os.path.join(VIDEOS_LINK_DIR, f"{channel_id}.txt"), mode="r") as r:
+            for url in r:
+                video_links.append(url.strip())
+        return video_links
+
+    def check_if_video_link_file_exists(self, channel_id):
+        return os.path.exists(os.path.join(VIDEOS_LINK_DIR, f"{channel_id}.txt"))

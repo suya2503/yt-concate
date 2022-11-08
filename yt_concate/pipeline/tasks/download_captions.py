@@ -17,18 +17,29 @@ class DownloadCaptions(Task):
     def process(self, data, config, utils):
         #download the package by:  pip install pytube
         for video_link in data:
-            # create yt object
-            source = YouTube(video_link)
-            # get caption -> str
-            ch_caption = source.captions.get_by_language_code('en')
-
-            ch_caption_convert_to_srt =(ch_caption.generate_srt_captions())
-
-            print(ch_caption_convert_to_srt)
-            #save the caption to a file named Output.txt
             # get caption fp
             caption_fp = utils.get_caption_fp(video_link=video_link)
+            # check if file exist
+            if utils.check_if_caption_file_exists(video_link) and os.path.getsize(caption_fp):
+                print(f'{video_link} caption file exists!!')
+                continue
             
-            with open(caption_fp, "w") as text_file:
-                text_file.write(ch_caption_convert_to_srt)
-            break
+            try:
+                # create yt object
+                source = YouTube(video_link)
+                # get caption -> str
+                ch_caption = source.captions.get_by_language_code('en')
+                ch_caption_convert_to_srt =(ch_caption.generate_srt_captions())
+                #save the caption to a file named Output.txt
+                with open(caption_fp, "w") as text_file:
+                    text_file.write(ch_caption_convert_to_srt)
+            except KeyError as e:
+                print(f'KeyError exists when downloading captions for url:{video_link}')
+                print(e)
+                continue
+            except AttributeError as e:
+                print(f"AttributeError exists when downloading captions for url:{video_link}")
+                print(f"No caption in this video for url:{video_link}")
+                print(e)
+                continue
+            # print(ch_caption_convert_to_srt)
