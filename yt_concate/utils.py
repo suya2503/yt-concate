@@ -23,7 +23,7 @@ class Utils:
             os.makedirs(VIDEOS_DIR)
     
     def check_if_caption_file_exists(self, url):
-        return os.path.exists(self.get_caption_fp(url))
+        return os.path.exists(self.get_caption_fp(url)) and os.path.getsize(self.get_caption_fp(url)) > 0
     
     @staticmethod
     def get_video_id_from_url(url):
