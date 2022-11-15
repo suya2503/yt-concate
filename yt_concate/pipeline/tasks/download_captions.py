@@ -16,11 +16,12 @@ class DownloadCaptions(Task):
     
     def process(self, data, config, utils):
         #download the package by:  pip install pytube
+        captions_fp = []
         for video_link in data:
             # get caption fp
             caption_fp = utils.get_caption_fp(video_link=video_link)
             # check if file exist
-            if utils.check_if_caption_file_exists(video_link) and os.path.getsize(caption_fp):
+            if utils.check_if_caption_file_exists(video_link):
                 print(f'{video_link} caption file exists!!')
                 continue
             
@@ -43,3 +44,6 @@ class DownloadCaptions(Task):
                 print(e)
                 continue
             # print(ch_caption_convert_to_srt)
+
+            captions_fp.append(caption_fp)
+        return data
